@@ -1,0 +1,12 @@
+package pl.awsb.soccer.reservation.api.request;
+
+import java.time.LocalDateTime;
+
+public record UpdateReservationRequest(
+        Long id,
+        String name,
+        String description,
+        LocalDateTime startAt,
+        LocalDateTime endAt
+) {
+}
