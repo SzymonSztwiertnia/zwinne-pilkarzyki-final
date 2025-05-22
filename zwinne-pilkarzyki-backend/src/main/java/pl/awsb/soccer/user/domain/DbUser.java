@@ -29,6 +29,12 @@ public class DbUser {
     String password;
 
     @Column(nullable = false)
+    String name;
+
+    @Column(nullable = false)
+    String lastName;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     UserType accountType;
 }

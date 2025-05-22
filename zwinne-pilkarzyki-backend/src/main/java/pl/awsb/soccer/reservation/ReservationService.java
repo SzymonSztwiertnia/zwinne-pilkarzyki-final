@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import pl.awsb.soccer.exception.AccessDeniedException;
+import pl.awsb.soccer.exception.BadRequestException;
 import pl.awsb.soccer.reservation.api.ReservationMapper;
 import pl.awsb.soccer.reservation.api.request.CreateReservationRequest;
 import pl.awsb.soccer.reservation.api.request.UpdateReservationRequest;
@@ -26,6 +27,15 @@ public class ReservationService {
     }
 
     public Reservation createReservation(DbUser user, CreateReservationRequest request) {
+        boolean hasConflict = repository.existsByStartAtBeforeAndEndAtAfter(
+                request.endAt(),
+                request.startAt()
+        );
+
+        if (hasConflict) {
+            throw new BadRequestException("W tym terminie już ktoś zarezerwował stolik.");
+        }
+
         DbReservation dbReservation = DbReservation.builder()
                 .name(request.name())
                 .description(request.description())

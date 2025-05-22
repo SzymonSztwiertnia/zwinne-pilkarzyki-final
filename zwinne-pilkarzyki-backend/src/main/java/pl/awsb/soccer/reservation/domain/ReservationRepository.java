@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<DbReservation, Long> {
     List<DbReservation> findAllByUserId(Long userId);
-
+    boolean existsByStartAtBeforeAndEndAtAfter(LocalDateTime startAt, LocalDateTime endAt);
 }

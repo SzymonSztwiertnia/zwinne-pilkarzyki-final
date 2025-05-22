@@ -6,6 +6,8 @@ import lombok.Builder;
 @Builder
 public record User (
         Long id,
-        String email
+        String email,
+        String name,
+        String lastName
 ) {
 }

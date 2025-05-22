@@ -4,6 +4,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -96,7 +97,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public AuthLoginResponse register(HttpServletRequest request, @RequestBody AuthRegisterRequest authRegisterRequest) {
+    public AuthLoginResponse register(HttpServletRequest request, @Valid @RequestBody AuthRegisterRequest authRegisterRequest) {
         return authService.register(request, authRegisterRequest);
     }
 

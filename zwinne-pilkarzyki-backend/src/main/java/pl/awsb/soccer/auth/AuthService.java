@@ -68,6 +68,8 @@ public class AuthService {
                 "role", user.getAccountType(),
                 "id", user.getId(),
                 "email", user.getEmail(),
+                "name", user.getName(),
+                "lastName", user.getLastName(),
                 "ip", RequestUtil.getClientIP(request)
         );
 
@@ -173,6 +175,8 @@ public class AuthService {
         DbUser user = DbUser.builder()
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
+                .name(request.name())
+                .lastName(request.lastName())
                 .accountType(UserType.USER)
                 .build();
 
