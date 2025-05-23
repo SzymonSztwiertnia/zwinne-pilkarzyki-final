@@ -16,10 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.awsb.soccer.auth.AuthService;
 import pl.awsb.soccer.auth.api.request.AuthLoginRequest;
 import pl.awsb.soccer.auth.api.request.AuthRefreshTokenRequest;
@@ -29,6 +26,7 @@ import pl.awsb.soccer.auth.api.response.AuthRefreshTokenResponse;
 import pl.awsb.soccer.exception.AccessDeniedException;
 import pl.awsb.soccer.security.CustomUserDetails;
 import pl.awsb.soccer.security.LoggedUser;
+import pl.awsb.soccer.user.api.response.User;
 import pl.awsb.soccer.user.domain.DbUser;
 import pl.awsb.soccer.util.RequestUtil;
 
@@ -44,6 +42,17 @@ public class AuthController {
     AuthService authService;
     AuthenticationManager authenticationManager;
     Cache<String, Long> blockedUsersCache = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).build();
+
+
+    @GetMapping("/info")
+    public User getUserInfo(@LoggedUser CustomUserDetails userDetails) {
+        return User.builder()
+                .id(userDetails.getUser().getId())
+                .email(userDetails.getUser().getEmail())
+                .name(userDetails.getUser().getName())
+                .lastName(userDetails.getUser().getLastName())
+                .build();
+    }
 
     @PostMapping("/login")
     public AuthLoginResponse login(
